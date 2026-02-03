@@ -755,7 +755,20 @@ export const agentRequestSchema = z.strictObject({
   webhook: agentWebhookSchema.optional(),
 
   overrideWhitelist: z.string().optional(),
-  model: z.enum(["spark-1-pro", "spark-1-mini"]).default("spark-1-pro"),
+  model: z.enum([
+    "spark-1-pro",
+    "spark-1-mini",
+    "gpt-4o",
+    "gpt-4o-mini",
+    "gpt-4.1",
+    "gpt-4.1-2025-04-14",
+    "gpt-4.5-preview",
+    "o1-preview",
+    "o1-2024-12-17",
+    "o3",
+    "o3-mini",
+    "o4-mini"
+  ]).default("spark-1-pro"),
 });
 
 export type AgentRequest = z.infer<typeof agentRequestSchema>;
@@ -1137,7 +1150,7 @@ export type AgentStatusResponse =
       status: "processing" | "completed" | "failed";
       error?: string;
       data?: any;
-      model?: "spark-1-pro" | "spark-1-mini";
+      model?: "spark-1-pro" | "spark-1-mini" | "gpt-4o" | "gpt-4o-mini" | "gpt-4.1" | "gpt-4.1-2025-04-14" | "gpt-4.5-preview" | "o1-preview" | "o1-2024-12-17" | "o3" | "o3-mini" | "o4-mini";
       expiresAt: string;
       creditsUsed?: number;
     };
