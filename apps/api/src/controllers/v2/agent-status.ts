@@ -25,11 +25,9 @@ export async function agentStatusController(
 
   const agent = await supabaseGetAgentByIdDirect(req.params.jobId);
 
-  let model: "spark-1-pro" | "spark-1-mini";
+  let model: "spark-1-pro" | "spark-1-mini" | "gpt-4o" | "gpt-4o-mini" | "gpt-4.1" | "gpt-4.1-2025-04-14" | "gpt-4.5-preview" | "o1-preview" | "o1-2024-12-17" | "o3" | "o3-mini" | "o4-mini";
   if (agent) {
-    model = (agent.options?.model ?? "spark-1-pro") as
-      | "spark-1-pro"
-      | "spark-1-mini";
+    model = (agent.options?.model ?? "spark-1-pro") as typeof model;
   } else {
     try {
       const optionsRequest = await fetch(
@@ -51,11 +49,9 @@ export async function agentStatusController(
           module: "api/v2",
           text: await optionsRequest.text(),
         });
-        model = "spark-1-pro"; // fall back to this value
+        model = "gpt-4.1"
       } else {
-        model = ((await optionsRequest.json()).model ?? "spark-1-pro") as
-          | "spark-1-pro"
-          | "spark-1-mini";
+        model = (agent.options?.model ?? "spark-1-pro") as typeof model;
       }
     } catch (error) {
       logger.warn("Failed to get agent request details", {
